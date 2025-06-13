@@ -14,6 +14,20 @@
     <p th:text="${error}"></p>
 </div>
 
+<div th:if="${project}">
+    <h2 th:text="${project.name}"></h2>
+    <div>
+        <strong>Descripción: </strong>
+        <span th:if="${project.description !null}" th:text="${project.description}"></span>
+        <span th:unless="${project.description != null}">Sin descripción</span>
+    </div>
+</div>
+
+<!--<div>-->
+<!--    <a th:href="@{/project}">Volver al listado de productos</a>-->
+<!--</div>-->
+
+
 </body>
 
 </html>

@@ -1,11 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Lista de proyectos</title>
 </head>
 <body>
-<p>lista de projectos</p>
+<div>
+    <h1>Lista de proyectos</h1>
+    <a th:href="@{/project/new}">Crear un proyecto</a>
+</div>
+
+<div th:if="${projects.isEmpty()}">
+    <p>No hay proyectos disponibles.</p>
+</div>
+
+<table th:unless="${projects.isEmpty()}">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th th:text="${project.name}"></th>
+        <th th:text="${project.description}"></th>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
