@@ -1,11 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Formulario de Proyecto</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body>
-<p>Formulario proyecto</p>
+<body class="container mt-4">
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Formulario de Proyecto</h1>
+        <a th:href="@{/projects}" class="btn btn-secondary btn-sm">Volver</a>
+    </div>
+
+    <div class="card-body">
+        <form th:action="@{/projects}" th:object="${project}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="name"
+                       th:field="*{name}">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description"
+                          th:field="*{description}" rows="3"
+                          maxlength="500"></textarea>
+                <small class="text-muted">Máximo 500 caracteres</small>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
