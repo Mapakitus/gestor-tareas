@@ -34,13 +34,15 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**", "/auth/**", "/", "/error").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**", "/auth/**", "/", "/error",
+                                "/comments/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")
