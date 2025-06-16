@@ -27,12 +27,12 @@ public class Comment {
     @Column(length = 500)
     private String comment;
 
-    @Column(name = "due_date")
-    private LocalDate dueDate;
-
-    private LocalDate createAt;
-
-    private LocalDate updateAt;
+    //    @Column(name = "due_date")
+    //    private LocalDate dueDate;
+    //
+    //    private LocalDate createAt;
+    //
+    //    private LocalDate updateAt;
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false)

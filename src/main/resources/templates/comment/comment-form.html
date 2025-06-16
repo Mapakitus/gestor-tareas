@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Comentario</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Formulario de Comentario</h1>
+        <a th:href="@{/tasks}" class="btn btn-secondary btn-sm">Volver</a>
+    </div>
+
+    <div class="card-body">
+        <form th:action="@{/comments}" th:object="${comment}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="mb-3">
+                <label for="task" class="form-label">Tarea</label>
+                <select id="task" class="form-control" name="taskId" required>
+                    <option value="">SELECCIONE UNA TAREA</option>
+                    <option th:each="task : ${tasks}"
+                            th:value="${task.id}"
+                            th:text="${task.title}"
+                            th:selected="${comment.task != null and comment.task.id == task.id}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Título del Comentario</label>
+                <input type="text" class="form-control" id="title"
+                       th:field="*{title}">
+            </div>
+
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comentario</label>
+                <textarea class="form-control" id="comment"
+                          th:field="*{comment}" rows="3"
+                          maxlength="500"></textarea>
+                <small class="text-muted">Máximo 500 caracteres</small>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">Guardar Comentario</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
