@@ -1,42 +1,31 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formulario de Proyecto</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body class="container mt-4">
+<body>
 
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h1 class="h3 mb-0">Formulario de Proyecto</h1>
-        <a th:href="@{/projects}" class="btn btn-secondary btn-sm">Volver</a>
-    </div>
+<h1 th:text="${project.id} == null ? 'Crear Proyecto' : 'Editar Proyecto'"></h1>
 
-    <div class="card-body">
-        <form th:action="@{/projects}" th:object="${project}" method="post">
-            <div class="mb-3">
-                <label for="name" class="form-label">Nombre del Proyecto</label>
-                <input type="text" class="form-control" id="name"
-                       th:field="*{name}">
-            </div>
+<form th:action="@{/projects/save}" th:object="${project}" method="post">
+    <input type="hidden" th:field="*{id}" />
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Descripción</label>
-                <textarea class="form-control" id="description"
-                          th:field="*{description}" rows="3"
-                          maxlength="500"></textarea>
-                <small class="text-muted">Máximo 500 caracteres</small>
-            </div>
+    <label>Nombre del proyecto:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <label>Descripción:</label>
+    <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+    <br/>
+    <label>Fecha de inicio:</label>
+    <input type="date" th:field="*{startDate}" />
+    <br/>
+    <label>Jefe de proyecto:</label>
+    <span th:text="${loggedUser.name}">Usuario</span>
+    <button type="submit">Guardar</button>
+</form>
 
-<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<a href="/projects">Volver a la lista</a>
+
 </body>
 </html>

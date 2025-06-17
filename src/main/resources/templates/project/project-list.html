@@ -1,67 +1,67 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista de Proyectos</title>
+    <title>Project List</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
-<body class="container mt-4">
+<body>
 
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h1 class="h3 mb-0">Lista de Proyectos</h1>
-        <a th:href="@{/projects/new}" class="btn btn-success btn-sm">+ Nuevo Proyecto</a>
+<div class="container mt-4">
+
+    <h1 class="mb-4">Lista de proyectos</h1>
+
+    <!--excepcion o custom si no hay proyecto -->
+    <div th:if="${projects.isEmpty()}" class="alert alert-warning">
+        <p class="mb-0">Sin proyectos</p>
     </div>
 
-    <div class="card-body">
-        <!-- Mensaje si no hay proyectos -->
-        <div th:if="${projects != null and projects.empty}" class="alert alert-info">
-            No hay proyectos registrados.
-        </div>
-
-        <!-- Lista de proyectos -->
-        <div th:unless="${projects == null or projects.empty}">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="project : ${projects}">
-                        <td th:text="${project.id}"></td>
-                        <td th:text="${project.name}"></td>
-                        <td>
-                                <span th:if="${project.description}"
-                                      th:text="${project.description}"></span>
-                            <span th:unless="${project.description}"
-                                  class="text-muted fst-italic">Sin descripción</span>
-                        </td>
-                        <td>
-                            <div class="btn-group btn-group-sm">
-                                <a th:href="@{'/projects/' + ${project.id}}"
-                                   class="btn btn-outline-primary">Editar</a>
-                                <form th:action="@{'/projects/' + ${project.id}}"
-                                      method="post"
-                                      onsubmit="return confirm('¿Eliminar este proyecto?')">
-                                    <input type="hidden" name="_method" value="delete">
-                                    <button type="submit" class="btn btn-outline-danger">
-                                        Eliminar
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="mb-3">
+        <a class="btn btn-success" th:href="@{/projects/new}">+ Nuevo proyecto</a>
     </div>
+
+    <h1>Hola, <span th:text="${loggedUser.name}">Usuario</span></h1>
+    <!-- TABLA PROYECTOS para debug -->
+    <div th:unless="${projects.isEmpty()}" class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID(debug)</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Tareas asignadas a proyecto</th>
+                <th>Tareas</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.id}"></td>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.tasks != null ? project.tasks.size() : 0}"></td>
+                <td>
+                <ul th:if="${project.tasks != null}">
+                    <li th:each="task, stat : ${project.tasks}"
+                        th:if="${stat.index < 3}"
+                        th:text="${task.title}">
+                    </li>
+                </ul></td>
+                <td>
+                    <div class="d-flex gap-1">
+                        <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-primary btn-sm">Detalle</a>
+                        <a th:href="@{/projects/{id}/editar(id=${project.id})}" class="btn btn-warning btn-sm">Editar</a>
+                        <form th:action="@{/projects/{id}/eliminar(id=${project.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
